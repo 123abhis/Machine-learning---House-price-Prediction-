@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title> Housing Price Prediction</title>
+    <style>
+        /* Body and background */
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('{{ url_for("static", filename="background.jpg") }}');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: #333;
+}
+
+
+        .overlay {
+    background-color: rgba(255, 255, 255, 0.1); /* more transparent */
+    min-height: 100vh;
+    padding: 50px 20px;
+}
+
+
+        h2 {
+            
+            text-align: center;
+            margin-bottom: 40px;
+            color: #d72b00ff;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            padding: 10px;
+            border-radius: 15px;
+            background: #ffffff;
+            max-width: 450px;
+            margin: auto;
+           
+            
+            
+            
+
+
+        }
+
+        /* Form styling */
+        form {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 450px;
+            margin: auto;
+            box-shadow: 0 8px 20px rgba(48, 41, 41, 0.2);
+            transition: transform 0.3s;
+        }
+
+        form:hover {
+            transform: translateY(-5px);
+        }
+
+        input {
+            margin: 8px 0;
+            padding: 10px;
+            width: 95%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #0078D7;
+            color: white;
+            padding: 12px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 18px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #005fa3;
+        }
+
+        /* Result container */
+        .result-box {
+            max-width: 600px;
+            margin: 40px auto 0 auto;
+            padding: 25px;
+            border-radius: 15px;
+            background: #ffffff;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            animation: fadeIn 1s ease-in;
+        }
+
+        /* Fade-in animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Input cards */
+        .input-card {
+            background: #f1f7ff;
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin: 8px 0;
+            font-size: 16px;
+        }
+
+        /* Predicted price box */
+        .price-box {
+            background: #0078D7;
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <h2> Housing Price Prediction</h2>
+
+        <!-- Input Form -->
+        <form action="/predict" method="post">
+            <input type="number" step="any" name="area" placeholder="Area (sq. ft)" required>
+            <input type="number" name="bedrooms" placeholder="Bedrooms" required>
+            <input type="number" name="bathrooms" placeholder="Bathrooms" required>
+            <input type="number" name="stories" placeholder="Stories / Floors" required>
+            <input type="number" name="parking" placeholder="Parking spaces" required>
+            <input type="number" name="mainroad" placeholder="Main road (1=Yes, 0=No)" required>
+            <input type="number" name="guestroom" placeholder="Guestroom (1=Yes, 0=No)" required>
+            <input type="number" name="basement" placeholder="Basement (1=Yes, 0=No)" required>
+            <input type="number" name="hotwaterheating" placeholder="Hot Water Heating (1=Yes, 0=No)" required>
+            <input type="number" name="airconditioning" placeholder="Air Conditioning (1=Yes, 0=No)" required>
+            <button type="submit">Predict Price</button>
+        </form>
+
+        <!-- Display Results -->
+        {% if prediction_text %}
+        <div class="result-box">
+            <h3> Your Input Details:</h3>
+            {% for key, value in user_inputs.items() %}
+            <div class="input-card"><strong>{{ key }}:</strong> {{ value }}</div>
+            {% endfor %}
+
+            <div class="price-box"> {{ prediction_text }}</div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
